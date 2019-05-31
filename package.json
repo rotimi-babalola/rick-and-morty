@@ -1,0 +1,24 @@
+{
+  "name": "rick-and-morty",
+  "version": "1.0.0",
+  "description": "Consuming Rick and Morty's GraphQL API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rotimi-babalola/rick-and-morty.git"
+  },
+  "keywords": [
+    "rick",
+    "morty",
+    "graphql"
+  ],
+  "author": "Rotimi Babalola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rotimi-babalola/rick-and-morty/issues"
+  },
+  "homepage": "https://github.com/rotimi-babalola/rick-and-morty#readme"
+}
