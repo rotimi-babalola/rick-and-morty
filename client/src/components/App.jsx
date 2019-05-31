@@ -1,5 +1,11 @@
 import React from 'react';
 
-const App = () => <h1>Hello world</h1>;
+import '../styles/app.scss';
+
+const App = () => (
+  <div className="app-container">
+    <h1>Hello world</h1>
+  </div>
+);
 
 export default App;
