@@ -4,7 +4,7 @@
   "description": "Consuming Rick and Morty's GraphQL API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "client:dev": "rm -rf client/dist && webpack-dev-server --env.mode development --open --hot",
     "build:client-dev": "rm -rf client/dist && webpack --env.mode development",
     "build:client-prod": "rm -rf client/dist && webpack --env.mode production"
@@ -42,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
     "husky": "^2.3.0",
+    "jest": "^24.8.0",
     "lint-staged": "^8.1.7",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.5.0"
@@ -55,6 +56,8 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^2.1.1",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.2",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
@@ -65,5 +68,13 @@
     "uglifyjs-webpack-plugin": "^2.1.3",
     "webpack": "^4.32.2",
     "webpack-merge": "^4.2.1"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss)$": "babel-jest"
+    },
+    "setupFiles": [
+      "<rootDir>/client/src/setupTests.js"
+    ]
   }
 }
