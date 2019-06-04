@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Card = ({ imgSrc, name }) => (
+import '../styles/card.scss';
+
+const Card = ({ imgSrc, name, species, gender }) => (
   <div className="card">
     <img className="card-img-top" src={imgSrc} alt="Card cap" />
     <div className="card-body">
       <h5 className="card-title">{name}</h5>
       <p className="card-text">
-        Some quick example text to build on the card title and make up the bulk
-        of the card content.
+        Species:&nbsp;
+        <span className="card-text__span">{species}</span>
+      </p>
+      <p className="card-text">
+        Gender:&nbsp;
+        <span className="card-text__span">{gender}</span>
       </p>
       <button type="button" className="btn btn-primary">
         Go somewhere
@@ -20,6 +26,8 @@ const Card = ({ imgSrc, name }) => (
 Card.propTypes = {
   imgSrc: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  species: PropTypes.string.isRequired,
+  gender: PropTypes.string.isRequired,
 };
 
 export default Card;

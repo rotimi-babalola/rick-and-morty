@@ -2,7 +2,7 @@ export const API_URL = 'https://rickandmortyapi.com/graphql';
 
 export const CHARACTERS_QUERY = `
   {
-    characters(page: 1) {
+    characters(page: 2) {
       info {
         count
         pages
@@ -14,6 +14,7 @@ export const CHARACTERS_QUERY = `
         name
         species
         image
+        gender
       }
     }
   }

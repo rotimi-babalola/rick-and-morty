@@ -26,7 +26,13 @@ const Characters = () => {
   return (
     <div className="card-wrapper">
       {data.characters.results.map(el => (
-        <Card key={el.id} imgSrc={el.image} name={el.name} />
+        <Card
+          key={el.id}
+          imgSrc={el.image}
+          name={el.name}
+          species={el.species}
+          gender={el.gender}
+        />
       ))}
     </div>
   );

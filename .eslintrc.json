@@ -12,6 +12,7 @@
         "react/jsx-filename-extension": "off",
         "import/prefer-default-export": "off",
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "object-curly-newline": "off"
     }
 }
