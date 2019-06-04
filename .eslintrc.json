@@ -4,9 +4,14 @@
         "browser": true,
         "jest": true
     },
+    "plugins": [
+        "react-hooks"
+    ],
     "rules": {
         "arrow-parens": "off",
         "react/jsx-filename-extension": "off",
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }
