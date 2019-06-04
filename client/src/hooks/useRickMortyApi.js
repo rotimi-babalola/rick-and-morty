@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 import axiosInstance from '../config/axiosConfig';
 
-const useRickMortyAPI = queryString => {
-  const [data, setData] = useState({ data: [] });
+const useRickMortyAPI = (queryString, initialData) => {
+  const [data, setData] = useState(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -13,8 +13,8 @@ const useRickMortyAPI = queryString => {
       setIsError(false);
 
       try {
-        const response = await axiosInstance.post('', { query: queryString });
-        setData(response.data);
+        const result = await axiosInstance.post('', { query: queryString });
+        setData(result.data.data);
       } catch (error) {
         setIsError(true);
       }

@@ -1,11 +1,35 @@
 import React from 'react';
+
 import useRickMortyApi from '../hooks/useRickMortyApi';
 import { CHARACTERS_QUERY } from '../constants';
 
+import Loading from './Loading';
+import Card from './Card';
+
+import '../styles/characters.scss';
+
+const initialData = { characters: { info: {}, results: [] } };
+
 const Characters = () => {
-  const { data } = useRickMortyApi(CHARACTERS_QUERY);
-  console.log(data, 'data >>>');
-  return <h1>kkk</h1>;
+  const { data, isLoading, isError } = useRickMortyApi(
+    CHARACTERS_QUERY,
+    initialData,
+  );
+  if (isError) {
+    return <h1>An error occurred</h1>;
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <div className="card-wrapper">
+      {data.characters.results.map(el => (
+        <Card key={el.id} imgSrc={el.image} name={el.name} />
+      ))}
+    </div>
+  );
 };
 
 export default Characters;
