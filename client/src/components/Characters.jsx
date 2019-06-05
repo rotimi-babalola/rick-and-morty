@@ -1,7 +1,7 @@
 import React from 'react';
 
 import useRickMortyApi from '../hooks/useRickMortyApi';
-import { CHARACTERS_QUERY } from '../constants';
+import getSearchQuery from '../utils/getSearchQuery';
 
 import Loading from './Loading';
 import Card from './Card';
@@ -10,11 +10,14 @@ import '../styles/characters.scss';
 
 const initialData = { characters: { info: {}, results: [] } };
 
+const CHARACTERS_QUERY = getSearchQuery();
+
 const Characters = () => {
   const { data, isLoading, isError } = useRickMortyApi(
     CHARACTERS_QUERY,
     initialData,
   );
+
   if (isError) {
     return <h1>An error occurred</h1>;
   }
