@@ -5,7 +5,7 @@ import getSearchQuery from '../utils/getSearchQuery';
 
 import Loading from './Loading';
 import Card from './Card';
-import Controls from './Contrrols';
+import Controls from './Controls';
 
 import '../styles/characters.scss';
 
