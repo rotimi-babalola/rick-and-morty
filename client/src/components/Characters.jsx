@@ -32,31 +32,38 @@ class Characters extends React.Component {
   render() {
     return (
       <>
-        <Controls onChange={() => {}} onInputChange={this.handleInputChange} />
-        <div className="card-wrapper">
-          <Query
-            query={getSearchQuery}
-            variables={{
-              pageNumber: this.state.pageNumber,
-              filter: this.state.filter,
-            }}
-          >
-            {({ data, loading }) => {
-              if (loading) {
-                return <Loading />;
-              }
-              return data.characters.results.map(el => (
-                <Card
-                  key={el.id}
-                  imgSrc={el.image}
-                  name={el.name}
-                  species={el.species}
-                  gender={el.gender}
-                />
-              ));
-            }}
-          </Query>
-        </div>
+        <Controls onInputChange={this.handleInputChange} />
+        <Query
+          query={getSearchQuery}
+          variables={{
+            pageNumber: this.state.pageNumber,
+            filter: this.state.filter,
+          }}
+        >
+          {({ data, loading }) => {
+            if (loading) {
+              return <Loading />;
+            }
+
+            if (data.characters.results === null) {
+              return <h1>Data not found</h1>;
+            }
+
+            return (
+              <div className="card-wrapper">
+                {data.characters.results.map(el => (
+                  <Card
+                    key={el.id}
+                    imgSrc={el.image}
+                    name={el.name}
+                    species={el.species}
+                    gender={el.gender}
+                  />
+                ))}
+              </div>
+            );
+          }}
+        </Query>
       </>
     );
   }
