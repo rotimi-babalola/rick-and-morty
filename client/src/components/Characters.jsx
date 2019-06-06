@@ -7,30 +7,48 @@ import withData from './HOCs/withData';
 
 import Loading from './Loading';
 import Card from './Card';
+import Controls from './Contrrols';
 
 import '../styles/characters.scss';
 
 const GET_CHARACTERS_QUERY = getSearchQuery();
 
-const Characters = ({ loading, data }) => {
-  if (loading) {
-    return <Loading />;
+class Characters extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  return (
-    <div className="card-wrapper">
-      {data.characters.results.map(el => (
-        <Card
-          key={el.id}
-          imgSrc={el.image}
-          name={el.name}
-          species={el.species}
-          gender={el.gender}
-        />
-      ))}
-    </div>
-  );
-};
+  handleInputChange(evt) {
+    const name = evt.target.value;
+  }
+
+  render() {
+    if (this.props.loading) {
+      return <Loading />;
+    }
+
+    return (
+      <>
+        <Controls onChange={() => {}} onInputChange={() => {}} />
+        <div className="card-wrapper">
+          {this.props.data.characters.results.map(el => (
+            <Card
+              key={el.id}
+              imgSrc={el.image}
+              name={el.name}
+              species={el.species}
+              gender={el.gender}
+            />
+          ))}
+        </div>
+      </>
+    );
+  }
+}
 
 Characters.propTypes = {
   loading: PropTypes.bool.isRequired,
