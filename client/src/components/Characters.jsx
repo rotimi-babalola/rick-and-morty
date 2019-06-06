@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Query } from 'react-apollo';
 
 import getSearchQuery from '../utils/getSearchQuery';
-
-import withData from './HOCs/withData';
 
 import Loading from './Loading';
 import Card from './Card';
@@ -11,58 +9,57 @@ import Controls from './Contrrols';
 
 import '../styles/characters.scss';
 
-const GET_CHARACTERS_QUERY = getSearchQuery();
-
 class Characters extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      name: '',
+      filter: {},
+      pageNumber: 1,
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange(evt) {
+  handleInputChange = evt => {
     const name = evt.target.value;
-  }
+    this.setState(prevState => ({
+      filter: {
+        ...prevState.filter,
+        name,
+      },
+    }));
+  };
 
   render() {
-    if (this.props.loading) {
-      return <Loading />;
-    }
-
     return (
       <>
-        <Controls onChange={() => {}} onInputChange={() => {}} />
+        <Controls onChange={() => {}} onInputChange={this.handleInputChange} />
         <div className="card-wrapper">
-          {this.props.data.characters.results.map(el => (
-            <Card
-              key={el.id}
-              imgSrc={el.image}
-              name={el.name}
-              species={el.species}
-              gender={el.gender}
-            />
-          ))}
+          <Query
+            query={getSearchQuery}
+            variables={{
+              pageNumber: this.state.pageNumber,
+              filter: this.state.filter,
+            }}
+          >
+            {({ data, loading }) => {
+              if (loading) {
+                return <Loading />;
+              }
+              return data.characters.results.map(el => (
+                <Card
+                  key={el.id}
+                  imgSrc={el.image}
+                  name={el.name}
+                  species={el.species}
+                  gender={el.gender}
+                />
+              ));
+            }}
+          </Query>
         </div>
       </>
     );
   }
 }
 
-Characters.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  data: PropTypes.shape({
-    characters: PropTypes.shape({
-      info: PropTypes.shape({
-        count: PropTypes.number.isRequired,
-        next: PropTypes.number.isRequired,
-        pages: PropTypes.number.isRequired,
-        prev: PropTypes.number,
-      }).isRequired,
-      results: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    }),
-  }).isRequired,
-};
-
-export default withData(GET_CHARACTERS_QUERY)(Characters);
+export default Characters;
