@@ -1,9 +1,11 @@
+import gql from 'graphql-tag';
+
 /**
  *
  * @param {number} pageNumber - page number to get
  * @param {object} filter - fields to filter by
  */
-const getCharactersQuery = (pageNumber = 1, filter = {}) => `
+const getCharactersQuery = (pageNumber = 1, filter = {}) => gql`
   {
     characters(page: ${pageNumber}, filter: ${JSON.stringify(filter)}) {
       info {

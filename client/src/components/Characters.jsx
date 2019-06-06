@@ -1,28 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import useRickMortyApi from '../hooks/useRickMortyApi';
 import getSearchQuery from '../utils/getSearchQuery';
+
+import withData from './HOCs/withData';
 
 import Loading from './Loading';
 import Card from './Card';
 
 import '../styles/characters.scss';
 
-const initialData = { characters: { info: {}, results: [] } };
+const GET_CHARACTERS_QUERY = getSearchQuery();
 
-const CHARACTERS_QUERY = getSearchQuery();
-
-const Characters = () => {
-  const { data, isLoading, isError } = useRickMortyApi(
-    CHARACTERS_QUERY,
-    initialData,
-  );
-
-  if (isError) {
-    return <h1>An error occurred</h1>;
-  }
-
-  if (isLoading) {
+const Characters = ({ loading, data }) => {
+  if (loading) {
     return <Loading />;
   }
 
@@ -41,4 +32,19 @@ const Characters = () => {
   );
 };
 
-export default Characters;
+Characters.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    characters: PropTypes.shape({
+      info: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        next: PropTypes.number.isRequired,
+        pages: PropTypes.number.isRequired,
+        prev: PropTypes.number,
+      }).isRequired,
+      results: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    }),
+  }).isRequired,
+};
+
+export default withData(GET_CHARACTERS_QUERY)(Characters);
