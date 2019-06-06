@@ -1,10 +1,10 @@
 import React from 'react';
+import { Card } from 'antd';
 import { Query } from 'react-apollo';
 
 import getSearchQuery from '../utils/getSearchQuery';
 
 import Loading from './Loading';
-import Card from './Card';
 import Controls from './Controls';
 
 import '../styles/characters.scss';
@@ -32,7 +32,7 @@ class Characters extends React.Component {
   render() {
     return (
       <>
-        <Controls onInputChange={this.handleInputChange} />
+        <Controls onInputChange={this.handleInputChange} onChange={() => {}} />
         <Query
           query={getSearchQuery}
           variables={{
@@ -53,12 +53,14 @@ class Characters extends React.Component {
               <div className="card-wrapper">
                 {data.characters.results.map(el => (
                   <Card
+                    title={el.name}
                     key={el.id}
-                    imgSrc={el.image}
-                    name={el.name}
-                    species={el.species}
-                    gender={el.gender}
-                  />
+                    hoverable
+                    cover={<img alt="example" src={el.image} />}
+                  >
+                    <p>{el.species}</p>
+                    <p>{el.gender}</p>
+                  </Card>
                 ))}
               </div>
             );

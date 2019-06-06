@@ -1,13 +1,12 @@
 import React from 'react';
+import { Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 import '../styles/loading.scss';
 
 const Loading = ({ size }) => (
   <div className="loading-wrapper">
-    <div className={`spinner-border ${size}`} role="status">
-      <span className="sr-only">Loading...</span>
-    </div>
+    <Spin size={size} />
   </div>
 );
 

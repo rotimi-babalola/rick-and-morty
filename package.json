@@ -57,6 +57,7 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "antd": "^3.19.2",
     "apollo-cache-inmemory": "^1.6.1",
     "apollo-client": "^2.6.1",
     "apollo-link-http": "^1.5.14",
