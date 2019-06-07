@@ -1,50 +1,95 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Card } from 'antd';
+import { Query } from 'react-apollo';
 
 import getSearchQuery from '../utils/getSearchQuery';
 
-import withData from './HOCs/withData';
-
 import Loading from './Loading';
-import Card from './Card';
+import Controls from './Controls';
 
 import '../styles/characters.scss';
 
-const GET_CHARACTERS_QUERY = getSearchQuery();
+class Characters extends React.Component {
+  constructor(props) {
+    super(props);
 
-const Characters = ({ loading, data }) => {
-  if (loading) {
-    return <Loading />;
+    this.state = {
+      filter: {},
+      pageNumber: 1,
+    };
   }
 
-  return (
-    <div className="card-wrapper">
-      {data.characters.results.map(el => (
-        <Card
-          key={el.id}
-          imgSrc={el.image}
-          name={el.name}
-          species={el.species}
-          gender={el.gender}
+  handleInputChange = evt => {
+    const name = evt.target.value;
+    this.setState(prevState => ({
+      filter: {
+        ...prevState.filter,
+        name,
+      },
+    }));
+  };
+
+  handleChange = value => {
+    if (value === 'clear') {
+      this.setState(prevState => ({
+        filter: {
+          ...prevState.filter,
+          gender: null,
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        filter: {
+          ...prevState.filter,
+          gender: value,
+        },
+      }));
+    }
+  };
+
+  render() {
+    return (
+      <>
+        <Controls
+          onInputChange={this.handleInputChange}
+          onChange={this.handleChange}
         />
-      ))}
-    </div>
-  );
-};
+        <Query
+          query={getSearchQuery}
+          variables={{
+            pageNumber: this.state.pageNumber,
+            filter: this.state.filter,
+          }}
+        >
+          {({ data, loading }) => {
+            if (loading) {
+              return <Loading />;
+            }
 
-Characters.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  data: PropTypes.shape({
-    characters: PropTypes.shape({
-      info: PropTypes.shape({
-        count: PropTypes.number.isRequired,
-        next: PropTypes.number.isRequired,
-        pages: PropTypes.number.isRequired,
-        prev: PropTypes.number,
-      }).isRequired,
-      results: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    }),
-  }).isRequired,
-};
+            if (data.characters.results === null) {
+              return <h1>Data not found</h1>;
+            }
 
-export default withData(GET_CHARACTERS_QUERY)(Characters);
+            return (
+              <div className="card-wrapper">
+                {data.characters.results.map(el => (
+                  <Card
+                    title={el.name}
+                    key={el.id}
+                    hoverable
+                    cover={<img alt="example" src={el.image} />}
+                  >
+                    <p>{el.species}</p>
+                    <p>{el.gender}</p>
+                  </Card>
+                ))}
+              </div>
+            );
+          }}
+        </Query>
+      </>
+    );
+  }
+}
+
+export default Characters;
