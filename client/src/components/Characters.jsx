@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Pagination } from 'antd';
 import { Query } from 'react-apollo';
 
 import getSearchQuery from '../utils/getSearchQuery';
@@ -29,6 +29,12 @@ class Characters extends React.Component {
     }));
   };
 
+  handlePageChange = page => {
+    this.setState({
+      pageNumber: page,
+    });
+  };
+
   handleChange = value => {
     if (value === 'clear') {
       this.setState(prevState => ({
@@ -38,11 +44,14 @@ class Characters extends React.Component {
         },
       }));
     } else {
+      // start fetching from page 1 if
+      // we change gender
       this.setState(prevState => ({
         filter: {
           ...prevState.filter,
           gender: value,
         },
+        pageNumber: 1,
       }));
     }
   };
@@ -71,19 +80,34 @@ class Characters extends React.Component {
             }
 
             return (
-              <div className="card-wrapper">
-                {data.characters.results.map(el => (
-                  <Card
-                    title={el.name}
-                    key={el.id}
-                    hoverable
-                    cover={<img alt="example" src={el.image} />}
-                  >
-                    <p>{el.species}</p>
-                    <p>{el.gender}</p>
-                  </Card>
-                ))}
-              </div>
+              <>
+                <div className="card-wrapper">
+                  {data.characters.results.map(el => (
+                    <Card
+                      title={el.name}
+                      key={el.id}
+                      hoverable
+                      cover={<img alt="example" src={el.image} />}
+                    >
+                      <p>{el.species}</p>
+                      <p>{el.gender}</p>
+                    </Card>
+                  ))}
+                </div>
+                <Pagination
+                  current={this.state.pageNumber}
+                  pageSize={Math.ceil(
+                    data.characters.info.count / data.characters.info.pages,
+                  )}
+                  total={data.characters.info.count}
+                  onChange={this.handlePageChange}
+                  style={{
+                    textAlign: 'center',
+                    marginBottom: '50px',
+                    marginTop: '50px',
+                  }}
+                />
+              </>
             );
           }}
         </Query>
