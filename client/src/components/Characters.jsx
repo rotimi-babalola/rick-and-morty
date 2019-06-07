@@ -15,7 +15,7 @@ class Characters extends React.Component {
 
     this.state = {
       filter: {},
-      pageNumber: 2,
+      pageNumber: 1,
     };
   }
 
@@ -27,6 +27,12 @@ class Characters extends React.Component {
         name,
       },
     }));
+  };
+
+  handlePageChange = page => {
+    this.setState({
+      pageNumber: page,
+    });
   };
 
   handleChange = value => {
@@ -86,8 +92,12 @@ class Characters extends React.Component {
                   ))}
                 </div>
                 <Pagination
-                  defaultCurrent={6}
-                  total={500}
+                  current={this.state.pageNumber}
+                  pageSize={Math.ceil(
+                    data.characters.info.count / data.characters.info.pages,
+                  )}
+                  total={data.characters.info.count}
+                  onChange={this.handlePageChange}
                   style={{
                     textAlign: 'center',
                     marginBottom: '50px',
