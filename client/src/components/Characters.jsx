@@ -29,10 +29,31 @@ class Characters extends React.Component {
     }));
   };
 
+  handleChange = value => {
+    if (value === 'clear') {
+      this.setState(prevState => ({
+        filter: {
+          ...prevState.filter,
+          gender: null,
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        filter: {
+          ...prevState.filter,
+          gender: value,
+        },
+      }));
+    }
+  };
+
   render() {
     return (
       <>
-        <Controls onInputChange={this.handleInputChange} onChange={() => {}} />
+        <Controls
+          onInputChange={this.handleInputChange}
+          onChange={this.handleChange}
+        />
         <Query
           query={getSearchQuery}
           variables={{

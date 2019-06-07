@@ -1,33 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Input, Select, Button, Divider } from 'antd';
 import PropTypes from 'prop-types';
 
 import '../styles/controls.scss';
 
-const Controls = ({ onInputChange, onChange }) => (
-  <div className="controls-container">
-    <div className="select-container">
-      <p>Sort by: </p>
-      <select
-        className="selectpicker"
-        multiple
-        data-live-search="true"
-        onChange={onChange}
-      >
-        <option value="default">Default</option>
-        <option value="name">Name</option>
-        <option value="name">Species</option>
-        <option value="name">Pokemon Name</option>
-        <option value="name">Pokemon Name</option>
-      </select>
+const { Option } = Select;
+
+const Controls = ({ onInputChange, onChange }) => {
+  const [selectValue, setSelectValue] = useState([]);
+  return (
+    <div className="controls-container">
+      <div className="select-container">
+        <Select
+          value={selectValue}
+          showSearch
+          style={{ width: 200, paddingRight: '20px' }}
+          placeholder="Filter by Gender"
+          optionFilterProp="children"
+          onChange={value => {
+            onChange(value);
+            setSelectValue(value);
+          }}
+          filterOption={(input, option) =>
+            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
+            0
+          }
+        >
+          <Option value="Male">Male</Option>
+          <Option value="Female">Female</Option>
+          <Option value="Genderless">Genderless</Option>
+          <Option value="unknown">Unknown</Option>
+        </Select>
+        <Button
+          onClick={() => {
+            setSelectValue([]);
+            onChange('clear');
+          }}
+        >
+          Clear Selection
+        </Button>
+      </div>
+      <Divider type="vertical" style={{ height: '35px' }} />
+      <Input
+        allowClear
+        placeholder="Search by name"
+        onChange={onInputChange}
+        style={{ width: 'fit-content' }}
+      />
     </div>
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Search by name"
-      onChange={onInputChange}
-    />
-  </div>
-);
+  );
+};
 
 Controls.propTypes = {
   onChange: PropTypes.func.isRequired,
