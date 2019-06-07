@@ -44,11 +44,14 @@ class Characters extends React.Component {
         },
       }));
     } else {
+      // start fetching from page 1 if
+      // we change gender
       this.setState(prevState => ({
         filter: {
           ...prevState.filter,
           gender: value,
         },
+        pageNumber: 1,
       }));
     }
   };
