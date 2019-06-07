@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Pagination } from 'antd';
 import { Query } from 'react-apollo';
 
 import getSearchQuery from '../utils/getSearchQuery';
@@ -15,7 +15,7 @@ class Characters extends React.Component {
 
     this.state = {
       filter: {},
-      pageNumber: 1,
+      pageNumber: 2,
     };
   }
 
@@ -71,19 +71,30 @@ class Characters extends React.Component {
             }
 
             return (
-              <div className="card-wrapper">
-                {data.characters.results.map(el => (
-                  <Card
-                    title={el.name}
-                    key={el.id}
-                    hoverable
-                    cover={<img alt="example" src={el.image} />}
-                  >
-                    <p>{el.species}</p>
-                    <p>{el.gender}</p>
-                  </Card>
-                ))}
-              </div>
+              <>
+                <div className="card-wrapper">
+                  {data.characters.results.map(el => (
+                    <Card
+                      title={el.name}
+                      key={el.id}
+                      hoverable
+                      cover={<img alt="example" src={el.image} />}
+                    >
+                      <p>{el.species}</p>
+                      <p>{el.gender}</p>
+                    </Card>
+                  ))}
+                </div>
+                <Pagination
+                  defaultCurrent={6}
+                  total={500}
+                  style={{
+                    textAlign: 'center',
+                    marginBottom: '50px',
+                    marginTop: '50px',
+                  }}
+                />
+              </>
             );
           }}
         </Query>
