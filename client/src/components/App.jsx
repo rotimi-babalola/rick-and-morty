@@ -9,11 +9,10 @@ import 'antd/dist/antd.css';
 
 const App = () => (
   <div className="app-container">
-    <h1 className="heading">Rick & Morty Characters</h1>
     <Router>
       <Switch>
         <Route exact path="/" component={Characters} />
-        <Route exact path="/:id" component={CharacterView} />
+        <Route exact path="/character/:id/:name" component={CharacterView} />
       </Switch>
     </Router>
   </div>

@@ -60,10 +60,6 @@ class Characters extends React.Component {
   render() {
     return (
       <>
-        <Controls
-          onInputChange={this.handleInputChange}
-          onChange={this.handleChange}
-        />
         <Query
           query={getSearchQuery}
           variables={{
@@ -82,9 +78,14 @@ class Characters extends React.Component {
 
             return (
               <>
+                <h1 className="heading">Rick & Morty Characters</h1>
+                <Controls
+                  onInputChange={this.handleInputChange}
+                  onChange={this.handleChange}
+                />
                 <div className="card-wrapper">
                   {data.characters.results.map(el => (
-                    <Link key={el.id} to={`/${el.id}`}>
+                    <Link key={el.id} to={`/character/${el.id}/${el.name}`}>
                       <Card
                         title={el.name}
                         hoverable
