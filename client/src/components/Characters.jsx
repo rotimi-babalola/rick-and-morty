@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Pagination } from 'antd';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
 import getSearchQuery from '../utils/getSearchQuery';
 
@@ -83,15 +84,16 @@ class Characters extends React.Component {
               <>
                 <div className="card-wrapper">
                   {data.characters.results.map(el => (
-                    <Card
-                      title={el.name}
-                      key={el.id}
-                      hoverable
-                      cover={<img alt="example" src={el.image} />}
-                    >
-                      <p>{el.species}</p>
-                      <p>{el.gender}</p>
-                    </Card>
+                    <Link key={el.id} to={`/${el.id}`}>
+                      <Card
+                        title={el.name}
+                        hoverable
+                        cover={<img alt="example" src={el.image} />}
+                      >
+                        <p>{el.species}</p>
+                        <p>{el.gender}</p>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
                 <Pagination
