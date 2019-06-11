@@ -3,7 +3,7 @@ import { Card, Pagination } from 'antd';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 
-import getSearchQuery from '../utils/getSearchQuery';
+import getCharactersQuery from '../utils/queries/getCharacters';
 
 import Loading from './Loading';
 import Controls from './Controls';
@@ -61,7 +61,7 @@ class Characters extends React.Component {
     return (
       <>
         <Query
-          query={getSearchQuery}
+          query={getCharactersQuery}
           variables={{
             pageNumber: this.state.pageNumber,
             filter: this.state.filter,
