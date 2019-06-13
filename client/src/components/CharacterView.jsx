@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Descriptions } from 'antd';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 
@@ -31,6 +30,7 @@ const CharacterView = props => {
                 src={state.image}
                 alt="Character"
                 style={{ marginBottom: '30px' }}
+                decoding="async"
               />
               <Descriptions>
                 <Descriptions.Item label="Gender">
@@ -50,17 +50,22 @@ const CharacterView = props => {
           );
         }}
       </Query>
-      <Link to="/">
-        <Button type="primary" icon="left">
-          Go Back
-        </Button>
-      </Link>
+      <Button
+        type="primary"
+        icon="left"
+        onClick={() => {
+          props.history.goBack();
+        }}
+      >
+        Go Back
+      </Button>
     </>
   );
 };
 
 CharacterView.propTypes = {
   match: PropTypes.shape().isRequired,
+  history: PropTypes.shape().isRequired,
   location: PropTypes.shape().isRequired,
 };
 

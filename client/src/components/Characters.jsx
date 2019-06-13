@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, Pagination } from 'antd';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 
 import getCharactersQuery from '../utils/queries/getCharacters';
 
@@ -14,9 +16,11 @@ class Characters extends React.Component {
   constructor(props) {
     super(props);
 
+    const queryValues = queryString.parse(this.props.history.location.search);
+
     this.state = {
       filter: {},
-      pageNumber: 1,
+      pageNumber: Number(queryValues.page) || 1,
     };
   }
 
@@ -31,9 +35,12 @@ class Characters extends React.Component {
   };
 
   handlePageChange = page => {
-    this.setState({
-      pageNumber: page,
-    });
+    this.setState(
+      {
+        pageNumber: page,
+      },
+      () => this.props.history.push(`?page=${page}`),
+    );
   };
 
   handleChange = value => {
@@ -63,9 +70,13 @@ class Characters extends React.Component {
             filter: this.state.filter,
           }}
         >
-          {({ data, loading }) => {
+          {({ data, loading, error }) => {
             if (loading) {
               return <Loading />;
+            }
+
+            if (error) {
+              return <h1>Unable to load data</h1>;
             }
 
             if (data.characters.results === null) {
@@ -84,6 +95,7 @@ class Characters extends React.Component {
                           name: el.name,
                           image: el.image,
                           gender: el.gender,
+                          page: this.state.pageNumber,
                         },
                       }}
                     >
@@ -119,5 +131,9 @@ class Characters extends React.Component {
     );
   }
 }
+
+Characters.propTypes = {
+  history: PropTypes.shape().isRequired,
+};
 
 export default Characters;
