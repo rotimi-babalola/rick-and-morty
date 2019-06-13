@@ -8,7 +8,8 @@ import getCharacterQuery from '../utils/queries/getCharacter';
 import Loading from './Loading';
 
 const CharacterView = props => {
-  const { name, id } = props.match.params;
+  const { id } = props.match.params;
+  const { state } = props.location;
   return (
     <>
       <Query query={getCharacterQuery} variables={{ id }}>
@@ -22,14 +23,18 @@ const CharacterView = props => {
               className="descriptions-container"
               style={{
                 marginBottom: '10px',
-                border: '1px solid black',
-                padding: '10px',
-                marginTop: '10%',
+                padding: '15px',
               }}
             >
-              <Descriptions title={name}>
+              <h1>{state.name}</h1>
+              <img
+                src={state.image}
+                alt="Character"
+                style={{ marginBottom: '30px' }}
+              />
+              <Descriptions>
                 <Descriptions.Item label="Gender">
-                  {data.character.gender}
+                  {state.gender}
                 </Descriptions.Item>
                 <Descriptions.Item label="Status">
                   {data.character.status}
@@ -56,6 +61,7 @@ const CharacterView = props => {
 
 CharacterView.propTypes = {
   match: PropTypes.shape().isRequired,
+  location: PropTypes.shape().isRequired,
 };
 
 export default CharacterView;

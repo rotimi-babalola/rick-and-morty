@@ -37,24 +37,15 @@ class Characters extends React.Component {
   };
 
   handleChange = value => {
-    if (value === 'all') {
-      this.setState(prevState => ({
-        filter: {
-          ...prevState.filter,
-          gender: null,
-        },
-      }));
-    } else {
-      // start fetching from page 1 if
-      // we change gender
-      this.setState(prevState => ({
-        filter: {
-          ...prevState.filter,
-          gender: value,
-        },
-        pageNumber: 1,
-      }));
-    }
+    // start fetching from page 1 if
+    // we change gender
+    this.setState(prevState => ({
+      filter: {
+        ...prevState.filter,
+        gender: value,
+      },
+      pageNumber: 1,
+    }));
   };
 
   render() {
@@ -85,7 +76,17 @@ class Characters extends React.Component {
               <>
                 <div className="card-wrapper">
                   {data.characters.results.map(el => (
-                    <Link key={el.id} to={`/character/${el.id}/${el.name}`}>
+                    <Link
+                      key={el.id}
+                      to={{
+                        pathname: `/character/${el.id}`,
+                        state: {
+                          name: el.name,
+                          image: el.image,
+                          gender: el.gender,
+                        },
+                      }}
+                    >
                       <Card
                         title={el.name}
                         hoverable

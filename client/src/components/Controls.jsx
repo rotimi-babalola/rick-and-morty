@@ -19,7 +19,7 @@ const Controls = ({ onInputChange, onChange }) => {
           optionFilterProp="children"
           onChange={value => {
             onChange(value);
-            if (value === 'all') {
+            if (value === null) {
               setSelectValue([]);
             } else {
               setSelectValue(value);
@@ -34,7 +34,7 @@ const Controls = ({ onInputChange, onChange }) => {
           <Option value="Female">Female</Option>
           <Option value="Genderless">Genderless</Option>
           <Option value="unknown">Unknown</Option>
-          <Option value="all">All</Option>
+          <Option value={null}>All</Option>
         </Select>
       </div>
       <Input

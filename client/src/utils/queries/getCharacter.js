@@ -4,9 +4,7 @@ const getCharacter = gql`
   query Character($id: ID) {
     character(id: $id) {
       id
-      name
       status
-      gender
       origin {
         name
         type
@@ -17,7 +15,6 @@ const getCharacter = gql`
         dimension
         type
       }
-      image
       episode {
         id
         name
