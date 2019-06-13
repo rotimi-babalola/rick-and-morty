@@ -37,7 +37,7 @@ class Characters extends React.Component {
   };
 
   handleChange = value => {
-    if (value === 'clear') {
+    if (value === 'all') {
       this.setState(prevState => ({
         filter: {
           ...prevState.filter,
@@ -60,6 +60,11 @@ class Characters extends React.Component {
   render() {
     return (
       <>
+        <h1 className="heading">Rick & Morty Characters</h1>
+        <Controls
+          onInputChange={this.handleInputChange}
+          onChange={this.handleChange}
+        />
         <Query
           query={getCharactersQuery}
           variables={{
@@ -78,11 +83,6 @@ class Characters extends React.Component {
 
             return (
               <>
-                <h1 className="heading">Rick & Morty Characters</h1>
-                <Controls
-                  onInputChange={this.handleInputChange}
-                  onChange={this.handleChange}
-                />
                 <div className="card-wrapper">
                   {data.characters.results.map(el => (
                     <Link key={el.id} to={`/character/${el.id}/${el.name}`}>

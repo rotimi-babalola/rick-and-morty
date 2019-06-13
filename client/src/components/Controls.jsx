@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Select, Button, Divider } from 'antd';
+import { Input, Select } from 'antd';
 import PropTypes from 'prop-types';
 
 import '../styles/controls.scss';
@@ -19,7 +19,11 @@ const Controls = ({ onInputChange, onChange }) => {
           optionFilterProp="children"
           onChange={value => {
             onChange(value);
-            setSelectValue(value);
+            if (value === 'all') {
+              setSelectValue([]);
+            } else {
+              setSelectValue(value);
+            }
           }}
           filterOption={(input, option) =>
             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
@@ -30,17 +34,9 @@ const Controls = ({ onInputChange, onChange }) => {
           <Option value="Female">Female</Option>
           <Option value="Genderless">Genderless</Option>
           <Option value="unknown">Unknown</Option>
+          <Option value="all">All</Option>
         </Select>
-        <Button
-          onClick={() => {
-            setSelectValue([]);
-            onChange('clear');
-          }}
-        >
-          Clear Selection
-        </Button>
       </div>
-      <Divider type="vertical" style={{ height: '35px' }} />
       <Input
         allowClear
         placeholder="Search by name"
