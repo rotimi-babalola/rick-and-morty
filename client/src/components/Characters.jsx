@@ -1,8 +1,11 @@
 import React from 'react';
 import { Card, Pagination } from 'antd';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 
-import getSearchQuery from '../utils/getSearchQuery';
+import getCharactersQuery from '../utils/queries/getCharacters';
 
 import Loading from './Loading';
 import Controls from './Controls';
@@ -13,9 +16,13 @@ class Characters extends React.Component {
   constructor(props) {
     super(props);
 
+    const queryValues = queryString.parse(this.props.history.location.search, {
+      parseNumbers: true,
+    });
+
     this.state = {
       filter: {},
-      pageNumber: 1,
+      pageNumber: queryValues.page || 1,
     };
   }
 
@@ -30,49 +37,48 @@ class Characters extends React.Component {
   };
 
   handlePageChange = page => {
-    this.setState({
-      pageNumber: page,
-    });
+    this.setState(
+      {
+        pageNumber: page,
+      },
+      () => this.props.history.push(`?page=${page}`),
+    );
   };
 
   handleChange = value => {
-    if (value === 'clear') {
-      this.setState(prevState => ({
-        filter: {
-          ...prevState.filter,
-          gender: null,
-        },
-      }));
-    } else {
-      // start fetching from page 1 if
-      // we change gender
-      this.setState(prevState => ({
-        filter: {
-          ...prevState.filter,
-          gender: value,
-        },
-        pageNumber: 1,
-      }));
-    }
+    // start fetching from page 1 if
+    // we change gender
+    this.setState(prevState => ({
+      filter: {
+        ...prevState.filter,
+        gender: value,
+      },
+      pageNumber: 1,
+    }));
   };
 
   render() {
     return (
       <>
+        <h1 className="heading">Rick & Morty Characters</h1>
         <Controls
           onInputChange={this.handleInputChange}
           onChange={this.handleChange}
         />
         <Query
-          query={getSearchQuery}
+          query={getCharactersQuery}
           variables={{
             pageNumber: this.state.pageNumber,
             filter: this.state.filter,
           }}
         >
-          {({ data, loading }) => {
+          {({ data, loading, error }) => {
             if (loading) {
               return <Loading />;
+            }
+
+            if (error) {
+              return <h1>Unable to load data</h1>;
             }
 
             if (data.characters.results === null) {
@@ -83,15 +89,27 @@ class Characters extends React.Component {
               <>
                 <div className="card-wrapper">
                   {data.characters.results.map(el => (
-                    <Card
-                      title={el.name}
+                    <Link
                       key={el.id}
-                      hoverable
-                      cover={<img alt="example" src={el.image} />}
+                      to={{
+                        pathname: `/character/${el.id}`,
+                        state: {
+                          name: el.name,
+                          image: el.image,
+                          gender: el.gender,
+                          page: this.state.pageNumber,
+                        },
+                      }}
                     >
-                      <p>{el.species}</p>
-                      <p>{el.gender}</p>
-                    </Card>
+                      <Card
+                        title={el.name}
+                        hoverable
+                        cover={<img alt="example" src={el.image} />}
+                      >
+                        <p>{el.species}</p>
+                        <p>{el.gender}</p>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
                 <Pagination
@@ -115,5 +133,9 @@ class Characters extends React.Component {
     );
   }
 }
+
+Characters.propTypes = {
+  history: PropTypes.shape().isRequired,
+};
 
 export default Characters;

@@ -1,11 +1,6 @@
 import gql from 'graphql-tag';
 
-/**
- *
- * @param {number} pageNumber - page number to get
- * @param {object} filter - fields to filter by
- */
-const getCharactersQuery = gql`
+const getCharacters = gql`
   query Characters($pageNumber: Int, $filter: FilterCharacter) {
     characters(page: $pageNumber, filter: $filter) {
       info {
@@ -25,4 +20,4 @@ const getCharactersQuery = gql`
   }
 `;
 
-export default getCharactersQuery;
+export default getCharacters;
