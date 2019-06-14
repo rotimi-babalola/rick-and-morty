@@ -16,11 +16,13 @@ class Characters extends React.Component {
   constructor(props) {
     super(props);
 
-    const queryValues = queryString.parse(this.props.history.location.search);
+    const queryValues = queryString.parse(this.props.history.location.search, {
+      parseNumbers: true,
+    });
 
     this.state = {
       filter: {},
-      pageNumber: Number(queryValues.page) || 1,
+      pageNumber: queryValues.page || 1,
     };
   }
 

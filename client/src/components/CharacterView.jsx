@@ -50,13 +50,7 @@ const CharacterView = props => {
           );
         }}
       </Query>
-      <Button
-        type="primary"
-        icon="left"
-        onClick={() => {
-          props.history.goBack();
-        }}
-      >
+      <Button type="primary" icon="left" onClick={props.history.goBack}>
         Go Back
       </Button>
     </>
