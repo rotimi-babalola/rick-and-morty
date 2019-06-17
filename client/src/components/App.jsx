@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import CharactersContainer from './CharactersContainer';
+import CharactersContainer from './containers/Characters';
 import CharacterView from './CharacterView';
 
 import '../styles/app.scss';

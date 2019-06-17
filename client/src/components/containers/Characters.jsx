@@ -2,7 +2,7 @@ import React from 'react';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
 
-import Characters from './Characters';
+import Characters from '../Characters';
 
 class CharactersContainer extends React.Component {
   constructor(props) {
