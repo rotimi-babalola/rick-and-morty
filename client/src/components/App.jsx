@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import CharactersContainer from './containers/Characters';
 import CharacterView from './CharacterView';
+import NotFound from './NotFound';
 
 import '../styles/app.scss';
 
@@ -13,6 +14,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={CharactersContainer} />
         <Route exact path="/character/:id" component={CharacterView} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   </div>
