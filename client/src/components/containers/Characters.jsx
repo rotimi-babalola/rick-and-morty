@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 
 import Characters from '../Characters';
@@ -18,14 +19,18 @@ class CharactersContainer extends React.Component {
     };
   }
 
-  handleInputChange = evt => {
-    const name = evt.target.value;
+  setName = debounce(name => {
     this.setState(prevState => ({
       filter: {
         ...prevState.filter,
         name,
       },
     }));
+  }, 500);
+
+  handleInputChange = evt => {
+    const name = evt.target.value;
+    this.setName(name);
   };
 
   handlePageChange = page => {
