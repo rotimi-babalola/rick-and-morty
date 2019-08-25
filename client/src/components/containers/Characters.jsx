@@ -4,6 +4,7 @@ import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 
 import Characters from '../Characters';
+import Controls from '../Controls';
 
 class CharactersContainer extends React.Component {
   constructor(props) {
@@ -56,13 +57,20 @@ class CharactersContainer extends React.Component {
 
   render() {
     return (
-      <Characters
-        handleInputChange={this.handleInputChange}
-        handlePageChange={this.handlePageChange}
-        handleChange={this.handleChange}
-        pageNumber={this.state.pageNumber}
-        filter={this.state.filter}
-      />
+      <>
+        <h1 className="heading">Rick & Morty Characters</h1>
+        <Controls
+          onInputChange={this.handleInputChange}
+          onChange={this.handleChange}
+        />
+        <Characters
+          handleInputChange={this.handleInputChange}
+          handlePageChange={this.handlePageChange}
+          handleChange={this.handleChange}
+          pageNumber={this.state.pageNumber}
+          filter={this.state.filter}
+        />
+      </>
     );
   }
 }
